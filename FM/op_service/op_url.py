@@ -1,6 +1,4 @@
 
-# import socket
-
 from BaseHTTPServer import BaseHTTPRequestHandler
 from StringIO import StringIO
 from django.http import HttpResponse , HttpResponseNotFound , Http404
@@ -8,7 +6,6 @@ from django.http import HttpResponse , HttpResponseNotFound , Http404
 import op_mysql as db
 import op_token as token
 import re
-
 
 class HTTPRequest(BaseHTTPRequestHandler):
     def __init__(self, request_text):

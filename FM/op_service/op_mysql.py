@@ -1,52 +1,49 @@
-
 import mysql.connector as mariadb
-import re
-from ConfigParser import *
-
-config = ConfigParser()
-config.read('/etc/fm/fm.conf')
-
-def string_parser(string,delimiter):
-    _SPLITS = re.split(delimiter,string)
-    return _SPLITS
-
-DB_MYSQL = config.get('database','mysql')
-
-DB_STR = string_parser(DB_MYSQL,'@')
-DB_STR = string_parser(DB_STR[0],':')
-DB_USER = DB_STR[0]
-DB_PASS = DB_STR[1]
-
-DB_STR = string_parser(DB_MYSQL,'@')
-DB_STR = string_parser(DB_STR[1],':')
-DB_HOST = DB_STR[0]
-DB_PORT = DB_STR[1]
-DB_NAME = DB_STR[2]
+import op_config as conf
+import op_logger as log
 
 def insert_peers(source,destination,unique_id):
-    db = mariadb.connect(host=DB_HOST,user=DB_USER,password=DB_PASS,database=DB_NAME)
-    cursor = db.cursor()
+    _MysqlData=conf.mysql_data()
+    try:
+        db = mariadb.connect(host=_MysqlData['host'],port=_MysqlData['port'],user=_MysqlData['user'],password=_MysqlData['pass'],database=_MysqlData['name'])
+        cursor = db.cursor()
+        _log_message = "CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
+        log.logger(_log_message)
+    except mariadb.Error , err:
+        log.logger(str(err))
+
     try:
         cursor.execute('INSERT INTO tb_peers (source,destination,unique_id)values(%s,%s,%s)',(source,destination,unique_id))
         db.commit()
         result = "success"
+        _log_message = "ROW INSERT INTO DB source="+source+" , destination="+destination+" , unique_id="+unique_id
+        log.logger(_log_message)
     except mariadb.Error as err:
         db.rollback()
         result = "failed"
-        print(err)
+        log.logger(err)
     db.close()
     return result
 
 def delete_peers(unique_id):
-    db = mariadb.connect(host=DB_HOST,user=DB_USER,password=DB_PASS,database=DB_NAME)
-    cursor = db.cursor()
+    _MysqlData=conf.mysql_data()
+    try:
+        db = mariadb.connect(host=_MysqlData['host'],port=_MysqlData['port'],user=_MysqlData['user'],password=_MysqlData['pass'],database=_MysqlData['name'])
+        cursor = db.cursor()
+        _log_message = "CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
+        log.logger(_log_message)
+    except mariadb.Error , err:
+        log.logger(str(err))
+
     try:
         cursor.execute("""DELETE FROM tb_peers WHERE unique_id = %s""",(unique_id,))
         db.commit()
         result = "success"
+        _log_message = "ROW DELETED unique_id="+unique_id
+        log.logger(_log_message)
     except mariadb.Error as err:
         db.rollback()
         result = "failed"
-        print(err)
+        log.logger(err)
     db.close()
     return result

@@ -1,30 +1,17 @@
 import mysql.connector as mariadb
-from ConfigParser import *
-import re
-
-config = ConfigParser()
-config.read('/etc/fm/fm.conf')
-
-def string_parser(string,delimiter):
-    _SPLITS = re.split(delimiter,string)
-    return _SPLITS
-
-DB_MYSQL = config.get('database','mysql')
-
-DB_STR = string_parser(DB_MYSQL,'@')
-DB_STR = string_parser(DB_STR[0],':')
-DB_USER = DB_STR[0]
-DB_PASS = DB_STR[1]
-
-DB_STR = string_parser(DB_MYSQL,'@')
-DB_STR = string_parser(DB_STR[1],':')
-DB_HOST = DB_STR[0]
-DB_PORT = DB_STR[1]
-DB_NAME = DB_STR[2]
+import op_config as conf
+import op_logger as log
 
 def validate_token(token):
-    db = mariadb.connect(host=DB_HOST,user=DB_USER,password=DB_PASS,database=DB_NAME)
-    cursor = db.cursor()
+    _MysqlData=conf.mysql_data()
+    try:
+        db = mariadb.connect(host=_MysqlData['host'],port=_MysqlData['port'],user=_MysqlData['user'],password=_MysqlData['pass'],database=_MysqlData['name'])
+        cursor = db.cursor()
+        _log_message = "CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
+        log.logger(_log_message)
+    except mariadb.Error , err:
+        log.logger(str(err))
+
     try:
         cursor.execute("""SELECT EXISTS(SELECT token FROM tb_token WHERE token = %s )""", (token,))
         _token_exist = cursor.fetchone()
