@@ -17,11 +17,14 @@ def validate_token(token):
         _token_exist = cursor.fetchone()
         if _token_exist[0] > 0:
             result = "success"
+            _log_message = "TOKEN VALIDATED token="+token
         else:
             result = "failed"
-    except mariadb.Error as err:
+            _log_message = "TOKEN INVALID token="+token
+        log.logger(_log_message)
+    except mariadb.Error , err:
         db.rollback()
         result = "failed"
-        print(err)
+        log.logger(str(err))
     db.close()
     return result
