@@ -1,4 +1,3 @@
-
 from BaseHTTPServer import BaseHTTPRequestHandler
 from StringIO import StringIO
 from django.http import HttpResponse , HttpResponseNotFound , Http404
@@ -6,6 +5,7 @@ from django.http import HttpResponse , HttpResponseNotFound , Http404
 import op_mysql as db
 import op_token as token
 import re
+import op_logger as log
 
 class HTTPRequest(BaseHTTPRequestHandler):
     def __init__(self, request_text):
@@ -28,28 +28,20 @@ ARR_S_D=[1,1]
 def url_pars(url):
     _SPLITS = re.split('/',url)
     if _SPLITS[1] == "insert" :
-        if token.validate_token(_SPLITS[2]) == "success" :
-            db.insert_peers(str(_SPLITS[3]),str(_SPLITS[4]),str(string_parser(_SPLITS[5],"'")[0]))
-            return "success"
+        if token.validate_token(_SPLITS[2]) is "success" :
+            return db.insert_peers(str(_SPLITS[3]),str(_SPLITS[4]),str(string_parser(_SPLITS[5],"'")[0]))
         else:  
             return "failed"
     elif _SPLITS[1] == "delete" :
-        if token.validate_token(_SPLITS[2]) == "success" :
-            db.delete_peers(str(string_parser(_SPLITS[3],"'")[0]))
-            return "success"
+        if token.validate_token(_SPLITS[2]) is "success" :
+            return db.delete_peers(str(string_parser(_SPLITS[3],"'")[0]))
         else:  
             return "failed"
 
 def insert(request):
         result=url_pars(str(request))
-        if result == "success":
-            return HttpResponse(status=200)
-        elif result == "failed":
-            return HttpResponse(status=404)
+        return HttpResponse(status=result)
 
 def delete(request):
         result=url_pars(str(request))
-        if result == "success":
-            return HttpResponse(status=200)
-        elif result == "failed":
-            return HttpResponse(status=404)
+        return HttpResponse(status=result)

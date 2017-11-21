@@ -9,19 +9,28 @@ def insert_peers(source,destination,unique_id):
         cursor = db.cursor()
         _log_message = "INSERT PEER CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
         log.logger(_log_message)
+        cursor.execute("""SELECT unique_id FROM tb_peers WHERE source=%s AND destination=%s AND unique_id=%s""",(source,destination,unique_id))
+        row = cursor.fetchall()    
+        length=int(len(row))
+        if length == 0:
+            try:
+                cursor.execute('INSERT INTO tb_peers (source,destination,unique_id)values(%s,%s,%s)',(source,destination,unique_id))
+                db.commit()
+                result = 200
+                _log_message = "ROW INSERTED INTO DB source="+source+" , destination="+destination+" , unique_id="+unique_id
+                log.logger(_log_message)
+            except mariadb.Error as err:
+                db.rollback()
+                result = 551
+                log.logger(err)
+        elif length > 0 :
+            _log_message = "ROW ALREADY EXIST WITH source="+source+" , destination="+destination+" , unique_id="+unique_id
+            log.logger(_log_message)
+            result = 553
     except mariadb.Error , err:
         log.logger(str(err))
+        result = 550
 
-    try:
-        cursor.execute('INSERT INTO tb_peers (source,destination,unique_id)values(%s,%s,%s)',(source,destination,unique_id))
-        db.commit()
-        result = "success"
-        _log_message = "ROW INSERT INTO DB source="+source+" , destination="+destination+" , unique_id="+unique_id
-        log.logger(_log_message)
-    except mariadb.Error as err:
-        db.rollback()
-        result = "failed"
-        log.logger(err)
     db.close()
     return result
 
@@ -32,18 +41,27 @@ def delete_peers(unique_id):
         cursor = db.cursor()
         _log_message = "DELETE PEER CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
         log.logger(_log_message)
+        cursor.execute("""SELECT unique_id FROM tb_peers WHERE unique_id = %s""",(unique_id,))
+        row = cursor.fetchall()    
+        length=int(len(row))
+        if length > 0:
+            try:
+                cursor.execute("""DELETE FROM tb_peers WHERE unique_id = %s""",(unique_id,))
+                db.commit()
+                result = 200
+                _log_message = "ROW DELETED unique_id="+unique_id
+                log.logger(_log_message)
+            except mariadb.Error as err:
+                db.rollback()
+                result = 551
+                log.logger(err)
+        elif length == 0 :
+            _log_message = "ROW DOES NOT EXIST WITH unique_id="+unique_id
+            log.logger(_log_message)
+            result = 552
     except mariadb.Error , err:
+        result = 550
         log.logger(str(err))
-
-    try:
-        cursor.execute("""DELETE FROM tb_peers WHERE unique_id = %s""",(unique_id,))
-        db.commit()
-        result = "success"
-        _log_message = "ROW DELETED unique_id="+unique_id
-        log.logger(_log_message)
-    except mariadb.Error as err:
-        db.rollback()
-        result = "failed"
-        log.logger(err)
+    
     db.close()
     return result

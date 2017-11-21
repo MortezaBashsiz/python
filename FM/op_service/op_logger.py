@@ -17,7 +17,6 @@ def warning(string):
 	logging.debug(string)
 
 def logger(string):
-	# _Log_Data = {}
 	_Log_Data = conf.log_data()
 	if _Log_Data['level'] == 'DEBUG' :
 		debug(string)
