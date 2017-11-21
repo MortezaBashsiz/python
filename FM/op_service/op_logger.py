@@ -3,17 +3,17 @@ import op_config as conf
 
 def debug(string):
 	_Log_Data = conf.log_data()
-	logging.basicConfig(filename=_Log_Data['path'],level=logging.DEBUG)
+	logging.basicConfig(filename=_Log_Data['path'],level=logging.DEBUG,format='%(asctime)s %(levelname)s  %(message)s',datefmt='%m/%d/%Y %I:%M:%S %p')
 	logging.debug(string)
 
 def INFO(string):
 	_Log_Data = conf.log_data()
-	logging.basicConfig(filename=_Log_Data['path'],level=logging.INFO)
+	logging.basicConfig(filename=_Log_Data['path'],level=logging.INFO,format='%(asctime)s %(levelname)s  %(message)s',datefmt='%m/%d/%Y %I:%M:%S %p')
 	logging.debug(string)
 
 def warning(string):
 	_Log_Data = conf.log_data()
-	logging.basicConfig(filename=_Log_Data['path'],level=logging.warning)
+	logging.basicConfig(filename=_Log_Data['path'],level=logging.warning,format='%(asctime)s %(levelname)s  %(message)s',datefmt='%m/%d/%Y %I:%M:%S %p')
 	logging.debug(string)
 
 def logger(string):
