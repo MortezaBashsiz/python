@@ -7,7 +7,7 @@ def validate_token(token):
     try:
         db = mariadb.connect(host=_MysqlData['host'],port=_MysqlData['port'],user=_MysqlData['user'],password=_MysqlData['pass'],database=_MysqlData['name'])
         cursor = db.cursor()
-        _log_message = "CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
+        _log_message = "TOKEN CONNECTED TO MYSQL host="+_MysqlData['host']+" , port="+_MysqlData['port']
         log.logger(_log_message)
     except mariadb.Error , err:
         log.logger(str(err))

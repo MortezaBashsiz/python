@@ -11,9 +11,9 @@ def INFO(string):
 	logging.basicConfig(filename=_Log_Data['path'],level=logging.INFO)
 	logging.debug(string)
 
-def debug(string):
+def warning(string):
 	_Log_Data = conf.log_data()
-	logging.basicConfig(filename=_Log_Data['path'],level=logging.DEBUG)
+	logging.basicConfig(filename=_Log_Data['path'],level=logging.warning)
 	logging.debug(string)
 
 def logger(string):
