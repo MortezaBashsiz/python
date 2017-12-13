@@ -6,19 +6,19 @@ from django.urls import reverse
 from django.template.context import RequestContext
 import datetime
 
-from .forms import login_form
+from .forms import dashboard_form
 
-def load_login(request):
+def load_dashboard(request):
 
     if request.method == 'POST':
 
-        form = login_form(request.POST)
+        form = dashboard_form(request.POST)
 
         if form.is_valid():
             return HttpResponseRedirect(reverse('all-borrowed') )
 
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = login_form(initial={'renewal_date': proposed_renewal_date,})
+        form = dashboard_form(initial={'renewal_date': proposed_renewal_date,})
 
-    return render(request, 'login/index.html', {'form': form})
+    return render(request, 'dashboard/index.html', {'form': form})
