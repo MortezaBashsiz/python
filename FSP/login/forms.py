@@ -21,3 +21,16 @@ class login_form(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+
+class login_info_form(forms.Form):
+    username = forms.CharField(
+        required = True,
+        label = 'username',
+        max_length = 32
+    )
+    password = forms.CharField(
+        required = True,
+        label = 'password',
+        max_length = 32,
+        widget = forms.PasswordInput()
+    )

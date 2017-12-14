@@ -21,4 +21,4 @@ def load_login(request):
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         form = login_form(initial={'renewal_date': proposed_renewal_date,})
 
-    return render(request, 'login/index.html', {'form': form})
+    return render(request, 'login/login_login.html', {'form': form})
