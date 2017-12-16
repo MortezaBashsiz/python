@@ -5,7 +5,7 @@ from operations import op_token as token
 import datetime
 
 def update_user(user_id,ip):
-    currentDT = datetime.datetime.now()
+    currentDT = datetime.datetime.now().replace(microsecond=0)
     _MysqlData=conf.mysql_data()
     try:
         db = mariadb.connect(host=_MysqlData['host'],port=_MysqlData['port'],user=_MysqlData['user'],password=_MysqlData['pass'],database=_MysqlData['name'])
@@ -31,6 +31,8 @@ def update_user(user_id,ip):
 
 def validate_user(username,password,ip):
     _MysqlData=conf.mysql_data()
+    _user_id=0
+    arr_result={}
     db = mariadb.connect(host=_MysqlData['host'],port=_MysqlData['port'],user=_MysqlData['user'],password=_MysqlData['pass'],database=_MysqlData['name'])
     try:
         cursor = db.cursor()
@@ -45,9 +47,9 @@ def validate_user(username,password,ip):
         if _user_exist[0] > 0:
             result = 'true'
             cursor.execute("""SELECT id FROM table_users WHERE name = %s AND pass = %s """, (username,password))
-            _user_exist = cursor.fetchone()
-            token.renew_token(_user_exist[0])
-            update_user(_user_exist[0],ip)
+            _user_id = cursor.fetchone()
+            # token.renew_token(_user_id[0])
+            update_user(_user_id[0],ip)
         else:
             result = 'false'
             _log_message = "USER INVALID user="+username
@@ -57,4 +59,6 @@ def validate_user(username,password,ip):
         result = 'false'
         log.logger(str(err))
     db.close()
-    return result
+    arr_result['result'] = result
+    arr_result['user_id'] = _user_id[0]
+    return arr_result
