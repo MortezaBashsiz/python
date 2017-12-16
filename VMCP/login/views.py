@@ -22,3 +22,5 @@ def load_login(request):
         form = login_form(initial={'renewal_date': proposed_renewal_date,})
 
     return render(request, 'login/login_login.html', {'form': form})
+
+    
