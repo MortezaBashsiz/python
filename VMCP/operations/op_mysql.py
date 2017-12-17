@@ -59,6 +59,10 @@ def validate_user(username,password,ip):
         result = 'false'
         log.logger(str(err))
     db.close()
-    arr_result['result'] = result
-    arr_result['user_id'] = _user_id[0]
+    if result == 'true':
+        arr_result['result'] = result
+        arr_result['user_id'] = _user_id[0]
+    else:
+        arr_result['result'] = result
+        arr_result['user_id'] = '0'
     return arr_result

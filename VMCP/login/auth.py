@@ -1,40 +1,19 @@
 
 from django.shortcuts import render,redirect
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from django.urls import reverse
-from django.template.context import RequestContext
-from ipware.ip import get_ip
-import datetime
 
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from .forms import login_info_form
 
-from operations import op_mysql as db
-from operations import op_token as token
-
-def auth(request):
-    ip = get_ip(request)
+def my_view(request):
     if request.method == 'POST':
         form = login_info_form(request.POST)
-        if form.is_valid():
-            userObj = form.cleaned_data
-            username = userObj['username']
-            password =  userObj['password']
-            user_result=db.validate_user(username,password,ip)
-            if user_result['result'] == 'true':
-                check_token=token.check_token(str(user_result['user_id']))
-                if check_token == 'true':
-                    token_result=token.validate_token(str(user_result['user_id']))
-                    if token_result['result'] == 'true':
-                        return redirect('panel/')
-                    else:
-                        renew_token_result=token.renew_token(str(user_result['user_id']))
-                        return redirect('/')
-                else :
-                    renew_token_result=token.renew_token(str(user_result['user_id']))
-                    return redirect('/')
-            else :
-                return render(request, 'login/login_failed.html', {'form': form})
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('panel/')
         else:
             return render(request, 'login/login_failed.html', {'form': form})
     else:
