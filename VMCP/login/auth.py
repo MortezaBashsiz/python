@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import login_info_form
 
-def my_view(request):
+def auth(request):
     if request.method == 'POST':
         form = login_info_form(request.POST)
         username = request.POST['username']

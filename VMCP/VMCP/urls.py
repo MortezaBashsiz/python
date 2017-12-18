@@ -7,8 +7,8 @@ from panel import views as panel
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', login.load_login),
+    path('', panel.load_panel),
     path('login/', login.load_login),
-    path('auth', auth.my_view),
+    path('auth', auth.auth),
     path('panel/', panel.load_panel),
 ]
