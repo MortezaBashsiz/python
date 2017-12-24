@@ -1,7 +1,7 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SESSION_COOKIE_AGE = 600
+SESSION_COOKIE_AGE = 6000
 LOGIN_URL = '/login'
 
 SECRET_KEY = 'k!ph2ww(rc0k%3$(lt#s=&7*(z))af8p9^#1jpd2(t47cwo2i-'

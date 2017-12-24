@@ -17,9 +17,57 @@
 
 
   <body class="no-skin">
+    
     <div id="navbar" class="navbar navbar-default          ace-save-state">
+      
       <div class="navbar-container ace-save-state" id="navbar-container">
+        
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+          <span class="sr-only">Toggle sidebar</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        
+        <div class="navbar-header pull-left">
+          <a href="/panel/" class="navbar-brand">
+            <small>
+              <i class="fa fa-leaf"></i>
+              VMCP - VOIP Monitoring Control Panel
+            </small>
+          </a>
+        </div>      
+      </div>  
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+      <script type="text/javascript">
+        try{ace.settings.loadState('main-container')}catch(e){}
+      </script>
+      <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
+        <script type="text/javascript">
+          try{ace.settings.loadState('sidebar')}catch(e){}
+        </script>
+      
+        <ul class="nav nav-list">
+          <li class="active">
+            <a href="/panel/dashboard">
+              <span class="menu-text"> Dashboard </span>
+            </a>
+            <!-- <b class="arrow"></b> -->
+          </li>
+        </ul>
+        <ul class="nav nav-list">
+          <li class="active">
+            <a href="/panel/cdr">
+              <span class="menu-text"> CDR </span>
+            </a>
+          </li>
+        </ul>
+
       </div>
     </div>
+
+
   </body>
   

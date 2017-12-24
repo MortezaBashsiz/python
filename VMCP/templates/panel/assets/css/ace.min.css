@@ -21547,11 +21547,9 @@ input.typeahead.scrollable~.tt-menu {
 }
 
 .no-skin .navbar .navbar-toggle {
-    background-color: #75B3D7
 }
 
 .no-skin .navbar .navbar-toggle:focus {
-    background-color: #75B3D7;
     border-color: transparent
 }
 
@@ -21739,7 +21737,7 @@ input.typeahead.scrollable~.tt-menu {
     top: -1px;
     bottom: 0;
     z-index: 1;
-    border: 2px solid #2B7DBC;
+    /*border: 2px solid #2B7DBC;*/
     border-width: 0 2px 0 0
 }
 
