@@ -21737,7 +21737,7 @@ input.typeahead.scrollable~.tt-menu {
     top: -1px;
     bottom: 0;
     z-index: 1;
-    /*border: 2px solid #2B7DBC;*/
+    border: 2px solid #2B7DBC;
     border-width: 0 2px 0 0
 }
 

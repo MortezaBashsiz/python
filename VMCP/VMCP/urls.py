@@ -11,4 +11,6 @@ urlpatterns = [
     path('login/', login.load_login),
     path('auth', auth.auth),
     path('panel/', panel.load_panel),
+    path('cdr/', panel.load_cdr),
+    path('cc/', panel.load_cc),
 ]
