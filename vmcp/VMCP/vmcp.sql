@@ -53,8 +53,8 @@ CREATE TABLE `auth_group_permissions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
-  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -125,7 +125,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$100000$kzueUpfst79Q$NWXcmsICEPGS9qLuEx70GEk/lFP7i/qTCUX7jF2QgaA=','2018-01-07 12:25:47',1,'morteza','','','',1,1,'2018-01-07 12:22:02'),(2,'pbkdf2_sha256$100000$UfjFnjSXbNco$5P6Qe5sfxgECDugMHwXEbbrvBMSt4GjEeUhaVkDH5UM=','2018-01-07 12:27:11',1,'admini','','','',1,1,'2018-01-07 12:23:25');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$100000$kzueUpfst79Q$NWXcmsICEPGS9qLuEx70GEk/lFP7i/qTCUX7jF2QgaA=','2018-01-09 04:35:22',1,'morteza','','','',1,1,'2018-01-07 12:22:02'),(2,'pbkdf2_sha256$100000$UfjFnjSXbNco$5P6Qe5sfxgECDugMHwXEbbrvBMSt4GjEeUhaVkDH5UM=','2018-01-07 12:27:11',1,'admini','','','',1,1,'2018-01-07 12:23:25');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,8 +171,8 @@ CREATE TABLE `auth_user_user_permissions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`),
   KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`),
-  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -193,6 +193,7 @@ DROP TABLE IF EXISTS `cdr`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cdr` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `caller_id_name` varchar(30) DEFAULT NULL,
   `caller_id_number` varchar(30) DEFAULT NULL,
   `destination_number` varchar(30) DEFAULT NULL,
@@ -206,8 +207,13 @@ CREATE TABLE `cdr` (
   `uuid` varchar(100) DEFAULT NULL,
   `bleg_uuid` varchar(100) DEFAULT NULL,
   `accountcode` varchar(10) DEFAULT NULL,
-  `domain_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `domain_name` varchar(100) DEFAULT NULL,
+  `server_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `caller_id_name` (`caller_id_name`,`caller_id_number`,`destination_number`,`context`,`start_stamp`,`answer_stamp`,`end_stamp`,`duration`,`billsec`,`hangup_cause`,`uuid`,`bleg_uuid`,`accountcode`,`domain_name`,`server_id`),
+  UNIQUE KEY `caller_id_name_2` (`caller_id_name`,`caller_id_number`,`destination_number`,`context`,`start_stamp`,`answer_stamp`,`end_stamp`,`duration`,`billsec`,`hangup_cause`,`uuid`,`bleg_uuid`,`accountcode`,`domain_name`,`server_id`),
+  KEY `caller_id_name_3` (`caller_id_name`,`caller_id_number`,`destination_number`,`context`,`start_stamp`,`answer_stamp`,`end_stamp`,`duration`,`billsec`,`hangup_cause`,`uuid`,`bleg_uuid`,`accountcode`,`domain_name`,`server_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,6 +222,7 @@ CREATE TABLE `cdr` (
 
 LOCK TABLES `cdr` WRITE;
 /*!40000 ALTER TABLE `cdr` DISABLE KEYS */;
+INSERT INTO `cdr` VALUES (2,'Morteza Bashsiz','1000','1000','default','2017-11-28 14:08:39','2017-11-28 14:08:40','2017-11-28 14:09:45',50,1000,'asdasd','asdasd','asdasdasd','asqweczx','asdasd',1),(1,'Morteza Bashsiz','1000','1000','default','2017-11-28 14:08:39','2017-11-28 14:08:40','2017-11-28 14:09:45',50,1000,'asdasd','asdasdasdaddssd','asdsdaaasddaxczxcq','asqweczx','qweasczxc',1);
 /*!40000 ALTER TABLE `cdr` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,8 +245,8 @@ CREATE TABLE `django_admin_log` (
   PRIMARY KEY (`id`),
   KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
   KEY `django_admin_log_user_id_c564eba6_fk` (`user_id`),
-  CONSTRAINT `django_admin_log_user_id_c564eba6_fk` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
-  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+  CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -326,7 +333,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('7i33glg3xvzz312v88hsr47hakvup7gk','NjU0MzZhOThiNDEwMWFiZmIyZTBmMzdhYzNhNzJiNGQ5MzYyMDk1YTp7Il9hdXRoX3VzZXJfaGFzaCI6ImE1ODRmMGVmNTU4NjI4YjM5YzgyMzI5OTRiMGZhMDY0OTZhYTEzZGEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2018-01-07 14:02:26'),('yf39d87bm3j0dlzskqamvta80vyex8b1','OWJjNjg0MDE5ZGIxYzUzODZmZWM2YjYwYTc0YjRiOGQ1ZGE5ZjdjNTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYTJlYzE5NmQ2MzM4ZmVjZTVjOGM5YmVjMTIwMDhmN2MxNTk5NWVmNyIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=','2018-01-07 14:07:11');
+INSERT INTO `django_session` VALUES ('0y2fn82xi3zrxv6h7ku0qplpbv28r98s','OTBhN2E3M2Q3MWU4MDU4NzY2ZjY1MDVkMTI1M2NmZGRkOWE1OTMxZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJhNTg0ZjBlZjU1ODYyOGIzOWM4MjMyOTk0YjBmYTA2NDk2YWExM2RhIn0=','2018-01-09 06:15:22'),('6u345t77vox4qmhp2dl5zm3rsq23rx6n','NTcxNTA5MWJmYjE0MGFkNWQ5NmFiNzNiMzk3Njg5OGMzM2VkNDhkZjp7Il9hdXRoX3VzZXJfaGFzaCI6ImE1ODRmMGVmNTU4NjI4YjM5YzgyMzI5OTRiMGZhMDY0OTZhYTEzZGEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=','2018-01-08 11:06:21'),('7i33glg3xvzz312v88hsr47hakvup7gk','NjU0MzZhOThiNDEwMWFiZmIyZTBmMzdhYzNhNzJiNGQ5MzYyMDk1YTp7Il9hdXRoX3VzZXJfaGFzaCI6ImE1ODRmMGVmNTU4NjI4YjM5YzgyMzI5OTRiMGZhMDY0OTZhYTEzZGEiLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIn0=','2018-01-07 14:02:26'),('yf39d87bm3j0dlzskqamvta80vyex8b1','OWJjNjg0MDE5ZGIxYzUzODZmZWM2YjYwYTc0YjRiOGQ1ZGE5ZjdjNTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiYTJlYzE5NmQ2MzM4ZmVjZTVjOGM5YmVjMTIwMDhmN2MxNTk5NWVmNyIsIl9hdXRoX3VzZXJfaWQiOiIyIn0=','2018-01-07 14:07:11');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -396,4 +403,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-07 16:26:06
+-- Dump completed on 2018-01-09 16:26:27
