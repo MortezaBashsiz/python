@@ -1,5 +1,5 @@
 import logging
-import op_config as conf 
+from . import op_config as conf 
 
 def debug(string):
 	_Log_Data = conf.log_data()

@@ -1,5 +1,5 @@
 
-from ConfigParser import *
+from configparser import *
 import re
 
 ConfigFilePath="/etc/vmcp_fs_agent/vmcp_fs_agent.conf"
@@ -39,4 +39,5 @@ def service_data():
 	_service_data={}
 	_service_data['server_id'] = config.get('service','server_id')
 	_service_data['interval'] = config.get('service','interval')
+	_service_data['cdr_csv_log_file'] = config.get('service','cdr_csv_log_file')
 	return _service_data
