@@ -8,9 +8,9 @@ from op_services import op_config as conf
 def main(interval):
 	while True:
 		_line_number = cdr.get_cdr_last_row_line_number(cdr.get_cdr_last_row_db())
-		# print ("##################",_line_number,)
+		# print (_line_number)
 		time.sleep(int(interval))
-		# cdr.insert_from_file_to_db(0)
+		cdr.insert_from_file_to_db(_line_number)
 
 if __name__== "__main__":
 	_Service_Data=conf.service_data()

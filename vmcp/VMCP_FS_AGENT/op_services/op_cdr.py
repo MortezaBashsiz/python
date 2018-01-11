@@ -122,11 +122,11 @@ def split(deli,string):
 def get_cdr_last_row_line_number(row):
     row = validate_row(row)
     _Service_Data = conf.service_data()
-    _str_cmd = "grep -n '\""+row['caller_id_name']+"\",\""+str(row['caller_id_number'])+"\",\""+str(row['destination_number'])+"\",\""+str(row['context'])+"\",\""+str(row['start_stamp'])+"\",\""+str(row['answer_stamp'])+"\",\""+str(row['end_stamp'])+"\",\""+str(row['duration'])+"\",\""+str(row['billsec'])+"\",\""+str(row['hangup_cause'])+"\",\""+str(row['uuid'])+"\",\""+str(row['bleg_uuid'])+"\",\""+str(row['accountcode'])+"\",\""+str(row['domain_name'])+"\"' "+_Service_Data['cdr_csv_log_file']+"| awk -F \":\" '{print $1}'"
+    _str_cmd = "grep -n '\""+row['caller_id_name']+"\",\""+str(row['caller_id_number'])+"\",\""+str(row['destination_number'])+"\",\""+str(row['context'])+"\",\""+str(row['start_stamp'])+"\",\""+str(row['answer_stamp'])+"\",\""+str(row['end_stamp'])+"\",\""+str(row['duration'])+"\",\""+str(row['billsec'])+"\",\""+str(row['hangup_cause'])+"\",\""+str(row['uuid'])+"\",\""+str(row['bleg_uuid'])+"\",\""+str(row['accountcode'])+"\",\""+str(row['domain_name'])+"\"' "+_Service_Data['cdr_csv_log_file']+" | tail -n1 "+"| awk -F \":\" '{print $1}'"
     _grep_result = subprocess.Popen(_str_cmd,shell=True,stdout=subprocess.PIPE)
     out, err = _grep_result.communicate()
-    print (split("\n",str(split('\'',str(out))[1])))
-    # print (out)
+    return (str(out)[2:-3])
+
 
 def insert_from_file_to_db(line_number):
     _counter = 0
@@ -135,7 +135,7 @@ def insert_from_file_to_db(line_number):
         _counter = 1
         for line in file:
             _counter += 1
-            # if _counter >= line_number
-            #     if len(line) > 0:
-            #         insert_cdr(record_pars(line))
+            if _counter > int(line_number)+1:
+                if len(line) > 0:
+                    insert_cdr(record_pars(line))
 
