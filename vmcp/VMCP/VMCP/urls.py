@@ -6,7 +6,7 @@ from login import auth as auth
 from panel import views as panel
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', panel.load_panel),
     path('login/', login.load_login),
     path('auth', auth.auth),
