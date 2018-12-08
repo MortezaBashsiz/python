@@ -8,7 +8,7 @@ SECRET_KEY = 'k!ph2ww(rc0k%3$(lt#s=&7*(z))af8p9^#1jpd2(t47cwo2i-'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -97,6 +97,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'templates'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "templates")

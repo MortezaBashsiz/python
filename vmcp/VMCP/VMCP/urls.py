@@ -4,12 +4,15 @@ from django.urls import path
 from login import views as login
 from login import auth as auth
 from panel import views as panel
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', panel.load_mng1_12h),
     path('login/', login.load_login),
     path('auth', auth.auth),
+    path('panel/', panel.load_mng1_12h),
     path('mng1_12h.html/', panel.load_mng1_12h),
     path('mng1_1d.html/', panel.load_mng1_1d),
     path('mng1_2d.html/', panel.load_mng1_2d),
@@ -20,4 +23,4 @@ urlpatterns = [
     path('mng1_3M.html/', panel.load_mng1_3m),
     path('mng1_1y.html/', panel.load_mng1_1y),
     path('mng1_2y.html/', panel.load_mng1_2y),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
