@@ -7,10 +7,17 @@ from panel import views as panel
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', panel.load_panel),
+    path('', panel.load_mng1_12h),
     path('login/', login.load_login),
     path('auth', auth.auth),
-    path('panel/', panel.load_panel),
-    path('cdr/', panel.load_cdr),
-    path('cc/', panel.load_cc),
+    path('mng1_12h.html/', panel.load_mng1_12h),
+    path('mng1_1d.html/', panel.load_mng1_1d),
+    path('mng1_2d.html/', panel.load_mng1_2d),
+    path('mng1_3d.html/', panel.load_mng1_3d),
+    path('mng1_7d.html/', panel.load_mng1_7d),
+    path('mng1_1M.html/', panel.load_mng1_1m),
+    path('mng1_2M.html/', panel.load_mng1_2m),
+    path('mng1_3M.html/', panel.load_mng1_3m),
+    path('mng1_1y.html/', panel.load_mng1_1y),
+    path('mng1_2y.html/', panel.load_mng1_2y),
 ]
